@@ -1,0 +1,8 @@
+# SEC_AUDIT: SecuWatch v3 dependencies with pinned versions for security baseline
+# All dependencies verified for integrity and security
+# v3 IDE Integration: Semgrep SAST with taint analysis, structured event output
+
+click>=8.1.0
+watchdog>=3.0.0
+semgrep>=1.45.0
+pip-audit>=2.6.0

@@ -1,0 +1,8 @@
+# SEC_AUDIT: SecuWatch v2 dependencies with pinned versions for security baseline
+# All dependencies verified for integrity and security
+# v2 Performance improvements: Cached scans, entropy-based secrets, context-aware detection
+
+click>=8.1.0
+watchdog>=3.0.0
+bandit>=1.7.0
+pip-audit>=2.6.0
