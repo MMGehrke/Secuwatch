@@ -1,0 +1,150 @@
+# SecuWatch v4 Configuration File
+# This file demonstrates all configurable parameters for enterprise-grade security monitoring
+
+# Semgrep Configuration
+semgrep_rulesets:
+  - "p/default"           # Default Semgrep ruleset with taint analysis
+  - "p/trailofbits"       # Additional security-focused rules
+  - "p/security-audit"    # Security audit specific rules
+  # - "p/owasp-top-ten"   # OWASP Top 10 rules (uncomment to enable)
+
+semgrep_timeout: 60       # Timeout in seconds for Semgrep scans
+
+# Entropy Configuration for Secret Detection
+entropy_threshold: 4.5    # Shannon entropy threshold (4.5 is recommended)
+entropy_min_length: 20    # Minimum string length to check for entropy
+entropy_max_length: 100   # Maximum string length to check for entropy
+
+# File Monitoring Configuration
+debounce_timer: 500       # Debounce timer in milliseconds (prevents rapid-fire scans)
+
+# Ignored Paths (glob patterns)
+ignored_paths:
+  - "**/__pycache__/**"   # Python cache directories
+  - "**/.git/**"          # Git directories
+  - "**/node_modules/**"  # Node.js dependencies
+  - "**/venv/**"          # Python virtual environments
+  - "**/env/**"           # Environment directories
+  - "**/.pytest_cache/**"  # Pytest cache
+  - "**/build/**"         # Build directories
+  - "**/dist/**"          # Distribution directories
+
+# Ignored Files (glob patterns)
+ignored_files:
+  - "*.pyc"               # Python compiled files
+  - "*.pyo"               # Python optimized files
+  - "*.pyd"               # Python extension modules
+  - "*.so"                # Shared object files
+  - "*.dll"               # Dynamic link libraries
+  - "*.exe"               # Executable files
+
+# Severity Mapping (maps external tool severities to SecuWatch severities)
+severity_mapping:
+  ERROR: "CRITICAL"       # Map Semgrep ERROR to CRITICAL
+  WARNING: "WARNING"       # Map Semgrep WARNING to WARNING
+  INFO: "INFO"            # Map Semgrep INFO to INFO
+  HIGH: "CRITICAL"        # Map pip-audit HIGH to CRITICAL
+  MEDIUM: "WARNING"        # Map pip-audit MEDIUM to WARNING
+  LOW: "INFO"             # Map pip-audit LOW to INFO
+
+# Sensitive Systems Configuration
+sensitive_keywords:
+  AUTHENTICATION:
+    - "authenticate"
+    - "login"
+    - "password"
+    - "jwt"
+    - "oauth"
+    - "session"
+    - "auth"
+    - "passlib"
+    - "bcrypt"
+    - "argon2"
+    - "scrypt"
+  
+  PAYMENT:
+    - "payment"
+    - "charge"
+    - "billing"
+    - "stripe"
+    - "paypal"
+    - "checkout"
+    - "transaction"
+    - "credit_card"
+    - "debit_card"
+    - "merchant"
+    - "gateway"
+  
+  ENCRYPTION:
+    - "encrypt"
+    - "decrypt"
+    - "hash"
+    - "private_key"
+    - "cryptography"
+    - "pycrypto"
+    - "cipher"
+    - "aes"
+    - "rsa"
+    - "ecdsa"
+    - "hmac"
+  
+  ACCESS_CONTROL:
+    - "permission"
+    - "role"
+    - "acl"
+    - "authorize"
+    - "privilege"
+    - "rbac"
+    - "casbin"
+    - "policy"
+    - "access"
+    - "grant"
+    - "revoke"
+
+# Sensitive File Paths (files containing these keywords are considered sensitive)
+sensitive_paths:
+  - "auth"
+  - "payment"
+  - "security"
+  - "crypto"
+  - "rbac"
+  - "permission"
+  - "billing"
+  - "checkout"
+  - "merchant"
+
+# Check Enable/Disable (turn specific security checks on/off)
+enable_checks:
+  dependency_integrity: true    # Enable pip-audit dependency scanning
+  sast_semgrep: true           # Enable Semgrep SAST scanning
+  entropy_secrets: true        # Enable high-entropy secret detection
+  input_validation: true       # Enable input validation checks
+  output_integrity: true       # Enable output integrity checks
+  logging_exposure: true       # Enable sensitive data logging checks
+  sensitive_systems: true       # Enable context-aware sensitive systems detection
+  hygiene_audit: true          # Enable .gitignore hygiene checks
+
+# Retry Configuration for Network Operations
+pip_audit_retries: 1           # Number of retries for pip-audit network calls
+pip_audit_retry_delay: 2       # Delay in seconds between retries
+
+# Advanced Configuration (Optional)
+# Uncomment and modify as needed
+
+# Custom Rule IDs for inline ignore comments
+# custom_rule_ids:
+#   - "CUSTOM_SECURITY_CHECK"
+#   - "BUSINESS_LOGIC_REVIEW"
+
+# Additional Semgrep Configuration
+# semgrep_additional_args:
+#   - "--max-target-bytes=1000000"
+#   - "--max-memory=5000"
+
+# Logging Configuration
+# log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+# log_file: "secuwatch.log"
+
+# Performance Configuration
+# max_concurrent_scans: 4
+# scan_queue_size: 100
