@@ -2,9 +2,24 @@
 
 ## Overview
 
-SecuWatch is a command-line security monitoring tool that provides **real-time security monitoring** for AI-assisted development, enforcing strict compliance with **MCP 2025-06-18 Security Best Practices** using an **80/20 rule** and **MITRE DEFEND** mapping.
+SecuWatch is a family of command-line security monitoring tools that provides **real-time security monitoring** for AI-assisted development, enforcing strict compliance with **MCP 2025-06-18 Security Best Practices** using an **80/20 rule** and **MITRE DEFEND** mapping.
+
+The SecuWatch family includes:
+- **SecuWatch-Lite**: Educational tool for learning security concepts (minimal dependencies)
+- **SecuWatch v2-v4**: Production-ready security monitoring with increasing levels of enterprise features
 
 ## 📋 Version History
+
+### **SecuWatch-Lite** (SecuWatch-Junior) - Educational & Instructional
+- **File**: `secuwatch_lite.py`
+- **Key Features**: 
+  - **Educational Focus**: Designed to teach security concepts to junior developers
+  - **Zero External Dependencies**: Only requires `click` for CLI (uses built-in `ast` module)
+  - **Simple & Self-Contained**: Easy to understand and modify
+  - **Instructional Output**: Each finding includes explanations and remediation guidance
+  - **Common Security Mistakes**: Detects hardcoded secrets and command injection risks
+- **Dependencies**: `click>=8.1.0` (only external dependency)
+- **Use Case**: Learning environments, educational projects, beginners learning security best practices
 
 ### **SecuWatch v4** (Latest) - Enterprise Ready
 - **File**: `secuwatch_v4.py`
@@ -35,6 +50,12 @@ SecuWatch is a command-line security monitoring tool that provides **real-time s
 
 ### Installation
 
+#### **SecuWatch-Lite** (Educational - Minimal Dependencies)
+```bash
+# Install only click (the only external dependency)
+pip install click>=8.1.0
+```
+
 #### **SecuWatch v4** (Recommended for Enterprise)
 ```bash
 # Install v4 dependencies with enterprise features
@@ -54,6 +75,18 @@ pip install -r requirements_v2.txt
 ```
 
 ### Usage by Version
+
+#### **SecuWatch-Lite** (Educational)
+```bash
+# Scan a single Python file
+python secuwatch_lite.py path/to/file.py
+
+# Scan a directory (recursively scans all .py files)
+python secuwatch_lite.py /path/to/your/project
+
+# Scan current directory (default)
+python secuwatch_lite.py
+```
 
 #### **SecuWatch v4** (Enterprise Ready)
 ```bash
@@ -84,20 +117,25 @@ python secuwatch.py watch /path/to/your/project
 
 ## 🎯 Features Comparison
 
-| Feature | v2 | v3 | v4 |
-|---------|----|----|----|
-| **Real-Time Monitoring** | ✅ | ✅ | ✅ |
-| **SAST Engine** | Bandit | Semgrep with Taint Analysis | Configurable Semgrep |
-| **Secret Detection** | Entropy-based | Entropy-based | Configurable Entropy |
-| **Dependency Scanning** | Cached pip-audit | Cached pip-audit | Cached pip-audit + Retry |
-| **IDE Integration** | ❌ | ✅ Structured JSON | ✅ Enhanced JSON |
-| **Taint Analysis** | ❌ | ✅ SQLi, Command Injection, XSS | ✅ Enhanced Taint Analysis |
-| **Configuration Management** | ❌ | ❌ | ✅ YAML Configuration |
-| **Debounced Monitoring** | ❌ | ❌ | ✅ Threading-based Debouncing |
-| **Error Handling** | Basic | Basic | ✅ Robust with Retry Logic |
-| **False Positive Suppression** | ❌ | ❌ | ✅ Inline Ignore Comments |
-| **Unit Testing** | ❌ | ❌ | ✅ Comprehensive Test Suite |
-| **Performance** | High | High | ✅ Optimized |
+| Feature | Lite | v2 | v3 | v4 |
+|---------|------|----|----|----|
+| **Educational Focus** | ✅ Instructional | ❌ | ❌ | ❌ |
+| **Dependencies** | Minimal (click only) | Medium | Medium | Full |
+| **Real-Time Monitoring** | ❌ | ✅ | ✅ | ✅ |
+| **SAST Engine** | Built-in AST | Bandit | Semgrep with Taint Analysis | Configurable Semgrep |
+| **Secret Detection** | Pattern-based | Entropy-based | Entropy-based | Configurable Entropy |
+| **Command Injection Detection** | ✅ AST-based | ❌ | ✅ (via Semgrep) | ✅ (via Semgrep) |
+| **Hardcoded Secrets** | ✅ Pattern matching | ✅ Entropy | ✅ Entropy | ✅ Configurable Entropy |
+| **Dependency Scanning** | ❌ | ✅ Cached pip-audit | ✅ Cached pip-audit | ✅ Cached pip-audit + Retry |
+| **IDE Integration** | ❌ | ❌ | ✅ Structured JSON | ✅ Enhanced JSON + SARIF |
+| **Taint Analysis** | ❌ | ❌ | ✅ SQLi, Command Injection, XSS | ✅ Enhanced Taint Analysis |
+| **Configuration Management** | ❌ | ❌ | ❌ | ✅ YAML Configuration |
+| **Debounced Monitoring** | ❌ | ❌ | ❌ | ✅ Threading-based Debouncing |
+| **Error Handling** | Basic | Basic | Basic | ✅ Robust with Retry Logic |
+| **False Positive Suppression** | ❌ | ❌ | ❌ | ✅ Inline Ignore Comments |
+| **Output Formats** | Console (instructional) | Console only | Console + JSON | Console + JSON + SARIF |
+| **Unit Testing** | ❌ | ❌ | ❌ | ✅ Comprehensive Test Suite |
+| **Performance** | Fast (simple scans) | High (cached) | High (cached) | ✅ Optimized (debounced + async) |
 
 ## 🛡️ Security Policies (All Versions)
 
@@ -209,6 +247,11 @@ The v3 engine can be integrated into VS Code Language Server Extensions:
 
 **I have verified the integrity of all chosen dependencies:**
 
+### **SecuWatch-Lite Dependencies**
+- `click`: CLI framework, actively maintained
+- Built-ins (`ast`): Core functionality module (Python standard library)
+- **Note**: SecuWatch-Lite has minimal dependencies by design for educational use
+
 ### **v2 Dependencies**
 - `watchdog`: File system monitoring, actively maintained, no critical CVEs
 - `click`: CLI framework, actively maintained
@@ -237,6 +280,16 @@ SecuWatch adheres to an 80/20 rule for security automation:
 
 ## 🆕 Version Evolution
 
+### **What's New in SecuWatch-Lite (Educational)**
+- **Educational Focus**: Designed specifically to teach security concepts to junior developers
+- **Minimal Dependencies**: Only requires `click` - uses Python's built-in `ast` module for analysis
+- **Instructional Output**: Each finding includes clear explanations of what the issue is and how to fix it
+- **Common Security Mistakes**: Focuses on the most common beginner mistakes:
+  - Hardcoded secrets (passwords, API keys, tokens)
+  - Command injection risks (`os.system()`, `subprocess.run(shell=True)`)
+- **Easy to Extend**: Simple, well-documented code structure makes it easy to add new scanners
+- **Self-Contained**: No external security tools required - perfect for learning environments
+
 ### **What's New in v3**
 - **IDE Integration**: Structured output for external tool integration
 - **Advanced SAST**: Semgrep with taint analysis for complex vulnerabilities
@@ -261,5 +314,7 @@ SecuWatch adheres to an 80/20 rule for security automation:
 5. New logging exposure checks
 
 ### **Choosing Your Version**
-- **Use v3** for: Production environments, IDE extensions, external integrations
-- **Use v2** for: Development environments, CI/CD pipelines, legacy compatibility
+- **Use SecuWatch-Lite** for: Learning environments, educational projects, teaching security concepts, beginners
+- **Use v4** for: Enterprise environments, production systems, teams requiring configuration flexibility, CI/CD with SARIF support
+- **Use v3** for: Development environments, IDE extensions, external integrations, Semgrep SAST requirements
+- **Use v2** for: Legacy compatibility, simple monitoring needs, Bandit SAST preference, minimal dependencies
